@@ -47,6 +47,9 @@ android {
             excludes += "/META-INF/{AL2.0,LGPL2.1}"
         }
     }
+    buildFeatures{
+        viewBinding = true
+    }
 }
 
 dependencies {
@@ -59,6 +62,8 @@ dependencies {
     implementation(libs.androidx.ui.graphics)
     implementation(libs.androidx.ui.tooling.preview)
     implementation(libs.androidx.material3)
+    implementation(libs.androidx.activity)
+    implementation(libs.androidx.constraintlayout)
     testImplementation(libs.junit)
     androidTestImplementation(libs.androidx.junit)
     androidTestImplementation(libs.androidx.espresso.core)
@@ -68,4 +73,12 @@ dependencies {
     debugImplementation(libs.androidx.ui.test.manifest)
     implementation (libs.zxing) // Barcode scanning library
     implementation (libs.zxing.core) // ZXing core library
+    implementation("com.android.volley:volley:1.2.1")
+    val appcompat_version = "1.7.0"
+
+    implementation("androidx.appcompat:appcompat:$appcompat_version")
+    // For loading and tinting drawables on older versions of the platform
+    implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
+    implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
+    implementation ("com.google.android.material:material:1.2.1")
 }
