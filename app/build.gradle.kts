@@ -86,4 +86,10 @@ dependencies {
     implementation("androidx.appcompat:appcompat-resources:$appcompat_version")
     implementation("androidx.coordinatorlayout:coordinatorlayout:1.2.0")
     implementation ("com.google.android.material:material:1.2.1")
+
+    implementation(platform(libs.google.firebase.bom))
+
+    // Declare the dependency for the Cloud Firestore library
+    // When using the BoM, you don't specify versions in Firebase library dependencies
+    implementation(libs.firebase.firestore)
 }
