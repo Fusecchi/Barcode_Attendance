@@ -22,25 +22,25 @@ class Login : AppCompatActivity() {
         firebaseref = FirebaseDatabase.getInstance().getReference("test")
         binding = ActivityLogin2Binding.inflate(layoutInflater)
         enableEdgeToEdge()
-        setContentView(R.layout.activity_login2)
+        setContentView(binding.root)
         val username = binding.username
         val pass = binding.password
-        val submit_login = binding.button
+        val submit_button = binding.button
 
-        binding.button.setOnClickListener{
+        submit_button.setOnClickListener{
             val input_user = username.text.toString()
             val input_pass = pass.text.toString()
             val intent = Intent(this,MainActivity::class.java)
             if (input_pass == "a" && input_user == "a" ){
-                Log.d("Login","y")
+            Toast.makeText(this, "Inputted: $input_user", Toast.LENGTH_SHORT).show()
+                firebaseref.setValue(input_pass).addOnSuccessListener {
+                    Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+                }.addOnFailureListener{
+                        e ->
+                    Log.e("RealtimeDB", "Error adding data", e)
+                }
                 startActivity(intent)
             }
-//            firebaseref.setValue(input_pass).addOnSuccessListener {
-//                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-//            }.addOnFailureListener{
-//                    e ->
-//                Log.e("RealtimeDB", "Error adding data", e)
-//            }
         }
 
         }

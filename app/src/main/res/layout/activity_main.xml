@@ -21,8 +21,8 @@
             android:textSize="18dp"
             />
 
-        <Switch
-
+        <androidx.appcompat.widget.SwitchCompat
+            android:id="@+id/switcher"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_margin="50dp" />
@@ -57,6 +57,23 @@
             android:layout_margin="16dp"
             android:textSize="26sp"
             android:textStyle="bold" />
+        <TextView
+            android:id="@+id/status"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:layout_margin="16dp"
+            android:textSize="26sp"
+            android:textStyle="bold" />
+
+        <Button
+            android:id="@+id/SentButton"
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:text="Sent"
+            android:textStyle="bold"
+            android:layout_margin="16dp"
+            android:backgroundTint="@color/Light_Blue"
+            />
 
     </androidx.appcompat.widget.LinearLayoutCompat>
 

@@ -7,6 +7,7 @@ import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
@@ -14,6 +15,8 @@ import com.example.myapplication.databinding.ActivityMainBinding
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
+import com.journeyapps.barcodescanner.camera.CameraSettings
+import java.time.LocalTime
 
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
@@ -44,12 +47,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCamera() {
         val options = ScanOptions()
+        val camerasetting = CameraSettings()
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
         options.setPrompt("Scan QR Code")
         options.setCameraId(0)
         options.setBeepEnabled(false)
         options.setBarcodeImageEnabled(true)
         options.setOrientationLocked(false)
+        camerasetting.isAutoFocusEnabled = true
 
         scanLauncher.launch(options)
     }
@@ -58,6 +63,7 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initViews()
+        status()
         }
 
     private fun initViews() {
@@ -79,6 +85,20 @@ class MainActivity : AppCompatActivity() {
     private fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+    private fun status(){
+        val currentTime = LocalTime.now()
+        binding.status.text = "Masuk"
+        binding.switcher.setOnCheckedChangeListener{_,ischecked ->
+            if (ischecked){
+                binding.status.text = "Pulang"
+                Toast.makeText(this, "Switch is On", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Switch is Off", Toast.LENGTH_SHORT).show()
+                binding.status.text = "Masuk"
+            }
+        }
+
     }
 }
 
