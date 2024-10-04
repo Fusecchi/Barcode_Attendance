@@ -1,5 +1,6 @@
 package com.example.myapplication
 
+import android.content.Intent
 import android.os.Bundle
 import android.util.Log
 import android.widget.Button
@@ -29,12 +30,17 @@ class Login : AppCompatActivity() {
         binding.button.setOnClickListener{
             val input_user = username.text.toString()
             val input_pass = pass.text.toString()
-            firebaseref.setValue(input_pass).addOnSuccessListener {
-                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
-            }.addOnFailureListener{
-                    e ->
-                Log.e("RealtimeDB", "Error adding data", e)
+            val intent = Intent(this,MainActivity::class.java)
+            if (input_pass == "a" && input_user == "a" ){
+                Log.d("Login","y")
+                startActivity(intent)
             }
+//            firebaseref.setValue(input_pass).addOnSuccessListener {
+//                Toast.makeText(this, "Success", Toast.LENGTH_SHORT).show()
+//            }.addOnFailureListener{
+//                    e ->
+//                Log.e("RealtimeDB", "Error adding data", e)
+//            }
         }
 
         }

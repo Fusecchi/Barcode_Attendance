@@ -1,0 +1,29 @@
+{
+  "project_info": {
+    "project_number": "182774509004",
+    "project_id": "kei-attendance",
+    "storage_bucket": "kei-attendance.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:182774509004:android:6e60fd44c392f03ffcc169",
+        "android_client_info": {
+          "package_name": "com.example.myapplication"
+        }
+      },
+      "oauth_client": [],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDCOkoJrShRMumGPn2QrVFnLJaHz804kGk"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": []
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
