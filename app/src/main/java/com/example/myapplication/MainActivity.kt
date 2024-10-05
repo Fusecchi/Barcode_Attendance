@@ -90,7 +90,8 @@ class MainActivity : AppCompatActivity() {
                 db.collection(loginmandor).add(
                     com.example.myapplication.`object`.User(
                         id = userId,
-                        Status = userName,
+                        Name = userName,
+                        Status = binding.status.text.toString(),
                         Waktu = currentDate.toString(),
                     )
                 ).addOnSuccessListener {
