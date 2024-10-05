@@ -12,11 +12,19 @@ import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
 import com.journeyapps.barcodescanner.camera.CameraSettings
+import java.text.SimpleDateFormat
 import java.time.LocalTime
+import java.util.Date
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
@@ -64,6 +72,24 @@ class MainActivity : AppCompatActivity() {
         initBinding()
         initViews()
         status()
+        val db = Firebase.firestore
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        val userInfo = binding.textResult.text.toString()
+        val infoparse = userInfo.split("/")
+        val userId = infoparse[0]
+        val userName = infoparse[1]
+
+
+        binding.SentButton.setOnClickListener {
+            db.collection("Users").add(
+            com.example.myapplication.`object`.User(
+            id = userId,
+            Status = userName,
+            Waktu = currentDate.toString(),
+            )
+            )
+        }
         }
 
     private fun initViews() {
@@ -87,7 +113,6 @@ class MainActivity : AppCompatActivity() {
         setContentView(binding.root)
     }
     private fun status(){
-        val currentTime = LocalTime.now()
         binding.status.text = "Masuk"
         binding.switcher.setOnCheckedChangeListener{_,ischecked ->
             if (ischecked){
