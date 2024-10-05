@@ -18,6 +18,8 @@ import com.google.firebase.database.FirebaseDatabase
 import com.google.firebase.firestore.firestore
 import com.google.firebase.firestore.ktx.firestore
 import com.google.firebase.ktx.Firebase
+import java.text.SimpleDateFormat
+import java.util.Date
 
 class Login : AppCompatActivity() {
     lateinit var binding: ActivityLogin2Binding
@@ -32,7 +34,6 @@ class Login : AppCompatActivity() {
         val username = binding.username
         val pass = binding.password
         val submit_button = binding.button
-        val db = Firebase.firestore
         auth = Firebase.auth
 
         submit_button.setOnClickListener{
@@ -52,6 +53,18 @@ class Login : AppCompatActivity() {
                 task -> if (task.isSuccessful){
                     val user = auth.currentUser
                     val intent = Intent(this,MainActivity::class.java)
+                    val nameofmandor = email.split("@",".")
+                    val mandorlogin = nameofmandor[0]
+                val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+                val currentDate = sdf.format(Date())
+                val db = Firebase.firestore
+                db.collection("Indirect").add(
+                    com.example.myapplication.`object`.admin(
+                        id = mandorlogin,
+                        Waktu = currentDate.toString()
+                    )
+                )
+                intent.putExtra("Scanner",mandorlogin)
                 Toast.makeText(this, "Welcome!", Toast.LENGTH_SHORT).show()
                 startActivity(intent)
             }else{

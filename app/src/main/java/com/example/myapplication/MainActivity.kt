@@ -3,6 +3,7 @@ package com.example.myapplication
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
@@ -75,6 +76,8 @@ class MainActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
+        val textmandor = findViewById<TextView>(R.id.mandor)
+        textmandor.text = intent.extras?.getString("Scanner")
 
 
         binding.SentButton.setOnClickListener {
@@ -83,13 +86,17 @@ class MainActivity : AppCompatActivity() {
                 val infoparse = userInfo.split("/")
                 val userId = infoparse[0]
                 val userName = infoparse[1]
-                db.collection("Users").add(
+                val loginmandor = textmandor.text.toString()
+                db.collection(loginmandor).add(
                     com.example.myapplication.`object`.User(
                         id = userId,
                         Status = userName,
                         Waktu = currentDate.toString(),
                     )
-                )
+                ).addOnSuccessListener {
+                    Toast.makeText(this, "Recorded", Toast.LENGTH_SHORT).show()
+                    showCamera()
+                }
             }
 
 
