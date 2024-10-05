@@ -75,20 +75,24 @@ class MainActivity : AppCompatActivity() {
         val db = Firebase.firestore
         val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
         val currentDate = sdf.format(Date())
-        val userInfo = binding.textResult.text.toString()
-        val infoparse = userInfo.split("/")
-        val userId = infoparse[0]
-        val userName = infoparse[1]
 
 
         binding.SentButton.setOnClickListener {
-            db.collection("Users").add(
-            com.example.myapplication.`object`.User(
-            id = userId,
-            Status = userName,
-            Waktu = currentDate.toString(),
-            )
-            )
+            if (!binding.textResult.text.isNullOrBlank()){
+                val userInfo = binding.textResult.text.toString()
+                val infoparse = userInfo.split("/")
+                val userId = infoparse[0]
+                val userName = infoparse[1]
+                db.collection("Users").add(
+                    com.example.myapplication.`object`.User(
+                        id = userId,
+                        Status = userName,
+                        Waktu = currentDate.toString(),
+                    )
+                )
+            }
+
+
         }
         }
 
