@@ -3,17 +3,29 @@ package com.example.myapplication
 import android.content.Context
 import android.content.pm.PackageManager
 import android.os.Bundle
+import android.widget.TextView
 import android.widget.Toast
 import androidx.activity.enableEdgeToEdge
 import androidx.activity.result.contract.ActivityResultContracts
 import androidx.appcompat.app.AppCompatActivity
+import androidx.appcompat.widget.SwitchCompat
 import androidx.core.content.ContextCompat
 import androidx.core.view.ViewCompat
 import androidx.core.view.WindowInsetsCompat
 import com.example.myapplication.databinding.ActivityMainBinding
+import com.google.firebase.firestore.auth.User
+import com.google.firebase.firestore.ktx.firestore
+import com.google.firebase.ktx.Firebase
 import com.journeyapps.barcodescanner.ScanContract
 import com.journeyapps.barcodescanner.ScanIntentResult
 import com.journeyapps.barcodescanner.ScanOptions
+import com.journeyapps.barcodescanner.camera.CameraSettings
+import java.text.SimpleDateFormat
+import java.time.LocalTime
+import java.util.Date
+import com.google.firebase.database.DatabaseReference
+import com.google.firebase.database.FirebaseDatabase
+import com.google.firebase.database.ServerValue
 
 class MainActivity : AppCompatActivity() {
     private val requestPermissionLauncher =
@@ -44,12 +56,14 @@ class MainActivity : AppCompatActivity() {
 
     private fun showCamera() {
         val options = ScanOptions()
+        val camerasetting = CameraSettings()
         options.setDesiredBarcodeFormats(ScanOptions.QR_CODE)
         options.setPrompt("Scan QR Code")
         options.setCameraId(0)
         options.setBeepEnabled(false)
         options.setBarcodeImageEnabled(true)
         options.setOrientationLocked(false)
+        camerasetting.isAutoFocusEnabled = true
 
         scanLauncher.launch(options)
     }
@@ -58,6 +72,36 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         initBinding()
         initViews()
+        status()
+        val db = Firebase.firestore
+        val sdf = SimpleDateFormat("dd/M/yyyy hh:mm:ss")
+        val currentDate = sdf.format(Date())
+        val textmandor = findViewById<TextView>(R.id.mandor)
+        textmandor.text = intent.extras?.getString("Scanner")
+
+
+        binding.SentButton.setOnClickListener {
+            if (!binding.textResult.text.isNullOrBlank()){
+                val userInfo = binding.textResult.text.toString()
+                val infoparse = userInfo.split("/")
+                val userId = infoparse[0]
+                val userName = infoparse[1]
+                val loginmandor = textmandor.text.toString()
+                db.collection(loginmandor).add(
+                    com.example.myapplication.`object`.User(
+                        id = userId,
+                        Name = userName,
+                        Status = binding.status.text.toString(),
+                        Waktu = currentDate.toString(),
+                    )
+                ).addOnSuccessListener {
+                    Toast.makeText(this, "Recorded", Toast.LENGTH_SHORT).show()
+                    showCamera()
+                }
+            }
+
+
+        }
         }
 
     private fun initViews() {
@@ -79,6 +123,19 @@ class MainActivity : AppCompatActivity() {
     private fun initBinding() {
         binding = ActivityMainBinding.inflate(layoutInflater)
         setContentView(binding.root)
+    }
+    private fun status(){
+        binding.status.text = "Masuk"
+        binding.switcher.setOnCheckedChangeListener{_,ischecked ->
+            if (ischecked){
+                binding.status.text = "Pulang"
+                Toast.makeText(this, "Switch is On", Toast.LENGTH_SHORT).show()
+            }else{
+                Toast.makeText(this, "Switch is Off", Toast.LENGTH_SHORT).show()
+                binding.status.text = "Masuk"
+            }
+        }
+
     }
 }
 
